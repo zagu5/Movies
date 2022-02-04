@@ -1,0 +1,10 @@
+<section class="container">
+    <section class="container-login">
+        <form class="form-login" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <h2>Welcome</h2>
+            <input class="form-control" type="name" formControlName="name" placeholder=" Enter your username" id="name">
+            <!-- <input class="form-control" type="password" formControlName="password" placeholder="     Password" id="password"> -->
+            <button class="btn btn-primary" type="submit" ><a [routerLink]="['login']">Join</a></button>
+          </form>
+        </section>
+</section>
