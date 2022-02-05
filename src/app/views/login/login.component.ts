@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-//import { Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthGuardService } from 'src/app/services/auth-guard.service';
 
 @Component({
   selector: 'app-login',
@@ -8,27 +9,33 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
-  })
 
-  constructor() { }
+  userName!: string;
+  password!: string;
+  formData!: FormGroup;
 
-  ngOnInit(): void {}
+  constructor(private authService : AuthGuardService, private router : Router) { }
 
-  async onLogin(){
-    console.log('Formulario', this.loginForm.value)
-    // const { email, password } = this.loginForm.value
-    // try{
-    //   const user = await this.authService.login(email, password)
-    //   if (user){
-    //     this.router.navigate(['/notes'])
-    //   }
-    // } catch(error){
-    // console.log(error)
-    // }
-  }
+  ngOnInit() {
+    this.formData = new FormGroup({
+       userName: new FormControl("username"),
+       password: new FormControl("password"),
+    });
+ }
 
+ onClickSubmit(data: any) {
+  this.userName = data.userName;
+  this.password = data.password;
+
+  console.log("Login page: " + this.userName);
+  console.log("Login page: " + this.password);
+
+  this.authService.login(this.userName, this.password)
+     .subscribe( data => { 
+        console.log("Is Login Success: " + data); 
+  
+       if(data) this.router.navigate(['/movies']); 
+  });
+}
 
 }
